@@ -1,0 +1,14 @@
+<body>
+  Hello!
+</body>
+
+<script>
+  const webSocket = new WebSocket("ws://localhost:30000");
+  webSocket.onopen = function (event) {
+    // const init = JSON.stringify({event: 'Init'})
+    webSocket.send('init');
+  };
+  webSocket.onmessage = function (event) {
+    console.log(event.data);
+  }
+</script>
