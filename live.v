@@ -34,11 +34,8 @@ mut:
 
 fn start_server(mut app App) ? {
 	mut s := websocket.new_server(30000, '')
-	// make that in execution test time give time to execute at least one time
 	s.ping_interval = 100
 	s.on_connect(fn (mut s websocket.ServerClient) ?bool {
-		// here you can look att the client info and accept or not accept
-		// just returning a true/false
 		if s.resource_name != '/' {
 			panic('unexpected resource name in test')
 			return false
@@ -48,21 +45,8 @@ fn start_server(mut app App) ? {
 
 	s.on_message_ref(fn (mut ws websocket.Client, msg &websocket.Message, mut model Model) ? {
 		event := msg.payload.bytestr()
-		println(event)
 
-		// update(event, mut app.model)
-		match event {
-			'init' {
-				model.count = 0
-			}
-			'inc' {
-				model.count = model.count + 1
-			}
-			'dec' {
-				model.count = model.count - 1
-			}
-			else {}
-		}
+		update(event, mut model)
 
 		rendered := view(model)
 
