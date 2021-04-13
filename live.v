@@ -6,7 +6,7 @@ import x.websocket
 struct App {
 	vweb.Context
 pub mut:
-  model Model
+	model Model
 }
 
 fn main() {
@@ -18,7 +18,9 @@ pub fn (mut app App) index() vweb.Result {
 }
 
 pub fn (mut app App) init() {
-	app.model = &Model{ count: 3}
+	app.model = &Model{
+		count: 3
+	}
 }
 
 pub fn (mut app App) init_once() {
@@ -26,8 +28,8 @@ pub fn (mut app App) init_once() {
 }
 
 struct Model {
-  mut:
-  count int
+mut:
+	count int
 }
 
 fn start_server(mut app App) ? {
@@ -44,28 +46,25 @@ fn start_server(mut app App) ? {
 		return true
 	}) ?
 
-
 	s.on_message_ref(fn (mut ws websocket.Client, msg &websocket.Message, mut model Model) ? {
-    event := msg.payload.bytestr()
-    println(event)
+		event := msg.payload.bytestr()
+		println(event)
 
-    // update(event, mut app.model)
-    match event {
-      'init' {
-        model.count = 0
-      }
-      'inc' {
-        model.count = model.count + 1
-      }
-      'dec' {
-        model.count = model.count - 1
-      }
-      else {
-      }
-    }
+		// update(event, mut app.model)
+		match event {
+			'init' {
+				model.count = 0
+			}
+			'inc' {
+				model.count = model.count + 1
+			}
+			'dec' {
+				model.count = model.count - 1
+			}
+			else {}
+		}
 
-
-    rendered := view(model)
+		rendered := view(model)
 
 		ws.write(rendered.bytes(), msg.opcode) or { panic(err) }
 	}, app.model)
@@ -74,27 +73,26 @@ fn start_server(mut app App) ? {
 		// not used
 	})
 
-	s.listen() or { }
+	s.listen() or {}
 }
 
 fn update(event string, mut model Model) {
-  match event {
-    'init' {
-      model.count = 0
-    }
-    'inc' {
-      model.count = model.count + 1
-    }
-    'dec' {
-      model.count = model.count - 1
-    }
-    else {
-    }
-  }
+	match event {
+		'init' {
+			model.count = 0
+		}
+		'inc' {
+			model.count = model.count + 1
+		}
+		'dec' {
+			model.count = model.count - 1
+		}
+		else {}
+	}
 }
 
 fn view(model Model) string {
-  return '
+	return '
 		<div>$model.count</div>
 		<button v-click="inc">+</button>
 		<button v-click="dec">-</button>
