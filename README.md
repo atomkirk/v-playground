@@ -1,4 +1,4 @@
-# v-playground
+# Simple V LiveView Clone
 
 This is simple clone of [Phoenix LiveView](https://github.com/phoenixframework/phoenix_live_view) in [V](https://vlang.io/). Also takes inspiration from [The Elm Architecture](https://guide.elm-lang.org/architecture/)
 
