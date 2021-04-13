@@ -4,9 +4,9 @@ import vweb
 import x.websocket
 
 struct App {
+	vweb.Context
 pub mut:
-	vweb vweb.Context
-  model &Model
+  model Model
 }
 
 fn main() {
@@ -17,7 +17,8 @@ pub fn (mut app App) index() vweb.Result {
 	return $vweb.html()
 }
 
-pub fn (app &App) init() {
+pub fn (mut app App) init() {
+	app.model = &Model{ count: 3}
 }
 
 pub fn (mut app App) init_once() {
@@ -64,14 +65,15 @@ fn start_server(mut app App) ? {
     }
 
 
-    // rendered := view(model)
-    rendered := '<div>$model.count</div>'
+    rendered := view(model)
 
 		ws.write(rendered.bytes(), msg.opcode) or { panic(err) }
 	}, app.model)
+
 	s.on_close(fn (mut ws websocket.Client, code int, reason string) ? {
 		// not used
 	})
+
 	s.listen() or { }
 }
 
@@ -92,5 +94,9 @@ fn update(event string, mut model Model) {
 }
 
 fn view(model Model) string {
-  return '<div>$model.count</div>'
+  return '
+		<div>$model.count</div>
+		<button v-click="inc">+</button>
+		<button v-click="dec">-</button>
+	'
 }

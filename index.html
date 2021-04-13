@@ -1,14 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
 <body>
   Hello!
-</body>
+  <div id="app"></div>
 
-<script>
-  const webSocket = new WebSocket("ws://localhost:30000");
-  webSocket.onopen = function (event) {
-    // const init = JSON.stringify({event: 'Init'})
-    webSocket.send('init');
-  };
-  webSocket.onmessage = function (event) {
-    console.log(event.data);
-  }
-</script>
+  <script>
+    const webSocket = new WebSocket("ws://localhost:30000");
+    webSocket.onopen = function (event) {
+      // const init = JSON.stringify({event: 'Init'})
+      webSocket.send('init');
+    };
+    webSocket.onmessage = function (resopnse) {
+      const node = document.getElementById('app')
+      node.innerHTML = resopnse.data
+      node.querySelectorAll('[v-click]').forEach(clickable => {
+        clickable.addEventListener("click", click => {
+          const event = click.target.attributes['v-click'].value
+          webSocket.send(event);
+        });
+      })
+    }
+  </script>
+</body>
+</html>
