@@ -17,19 +17,13 @@ pub fn (mut app App) index() vweb.Result {
 	return $vweb.html()
 }
 
-pub fn (mut app App) init() {
-	app.model = &Model{
-		count: 3
-	}
-}
-
 pub fn (mut app App) init_once() {
 	go app.start_server()
 }
 
 struct Model {
 mut:
-	count int
+	count int = 3
 }
 
 fn (mut app App) start_server() ? {
