@@ -23,7 +23,7 @@ pub fn (mut app App) init_once() {
 
 struct Model {
 mut:
-	count int = 3
+	count int
 }
 
 fn (mut app App) start_server() ? {
@@ -57,7 +57,7 @@ fn (mut app App) start_server() ? {
 fn (mut model Model) update(event string) {
 	match event {
 		'init' {
-			model.count = 0
+			model.count = 3
 		}
 		'inc' {
 			model.count++
