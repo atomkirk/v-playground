@@ -24,7 +24,7 @@ pub fn (mut app App) init() {
 }
 
 pub fn (mut app App) init_once() {
-	go start_server(mut app)
+	go app.start_server()
 }
 
 struct Model {
@@ -32,7 +32,7 @@ mut:
 	count int
 }
 
-fn start_server(mut app App) ? {
+fn (mut app App) start_server() ? {
 	mut s := websocket.new_server(30000, '')
 	s.ping_interval = 100
 	s.on_connect(fn (mut s websocket.ServerClient) ?bool {
@@ -46,9 +46,9 @@ fn start_server(mut app App) ? {
 	s.on_message_ref(fn (mut ws websocket.Client, msg &websocket.Message, mut model Model) ? {
 		event := msg.payload.bytestr()
 
-		update(event, mut model)
+		model.update(event)
 
-		rendered := view(model)
+		rendered := model.view()
 
 		ws.write(rendered.bytes(), msg.opcode) or { panic(err) }
 	}, app.model)
@@ -60,7 +60,7 @@ fn start_server(mut app App) ? {
 	s.listen() or {}
 }
 
-fn update(event string, mut model Model) {
+fn (mut model Model) update(event string) {
 	match event {
 		'init' {
 			model.count = 0
@@ -75,7 +75,7 @@ fn update(event string, mut model Model) {
 	}
 }
 
-fn view(model Model) string {
+fn (model Model) view() string {
 	return '
 		<div>$model.count</div>
 		<button v-click="inc">+</button>
