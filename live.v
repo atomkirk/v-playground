@@ -59,6 +59,9 @@ fn (mut model Model) update(event string) {
 		'init' {
 			model.count = 3
 		}
+		'reset' {
+			model.count = 0
+		}
 		'inc' {
 			model.count++
 		}
@@ -74,5 +77,6 @@ fn (model Model) view() string {
 		<div>$model.count</div>
 		<button v-click="inc">+</button>
 		<button v-click="dec">-</button>
+		<button v-click="reset">0</button>
 	'
 }
