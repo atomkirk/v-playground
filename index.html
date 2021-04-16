@@ -16,9 +16,9 @@
       // const init = JSON.stringify({event: 'Init'})
       webSocket.send('init');
     };
-    webSocket.onmessage = function (resopnse) {
+    webSocket.onmessage = function (response) {
       const node = document.getElementById('app')
-      node.innerHTML = resopnse.data
+      node.innerHTML = response.data
       node.querySelectorAll('[v-click]').forEach(clickable => {
         clickable.addEventListener("click", click => {
           const event = click.target.attributes['v-click'].value
