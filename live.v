@@ -66,10 +66,10 @@ fn (mut model Model) update(event string) {
 			model.count = 0
 		}
 		'inc' {
-			model.count = model.count + 1
+			model.count++
 		}
 		'dec' {
-			model.count = model.count - 1
+			model.count--
 		}
 		else {}
 	}
