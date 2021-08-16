@@ -1,6 +1,6 @@
-# Simple V LiveView Clone
+# Tela-v
 
-This is simple clone of [Phoenix LiveView](https://github.com/phoenixframework/phoenix_live_view) in [V](https://vlang.io/). Also takes inspiration from [The Elm Architecture](https://guide.elm-lang.org/architecture/)
+A framework for making real-time SPA web apps with vlang. Basically [Phoenix LiveView](https://github.com/phoenixframework/phoenix_live_view) in [V](https://vlang.io/). Also takes inspiration from [The Elm Architecture](https://guide.elm-lang.org/architecture/)
 
 ![example](https://cln.sh/8LAqOJqo5RbTVc4RNux5+)
 
